@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>    
+    <title>WebSocket Example</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        socket.on('my response', function(msg) {
+            displayText(msg.data);
+        });
+
+        function displayText(text) {
+            let container = document.getElementById('message-container');
+            container.innerHTML = '';
+            let index = 0;
+            function addCharacter() {
+                if (index < text.length) {
+                    container.innerHTML += text.charAt(index);
+                    index++;
+                    setTimeout(addCharacter, 100); // 100ミリ秒ごとに文字を追加
+                }
+            }
+            addCharacter();
+        }
+    </script>
+</head>
+<body>
+    <div class="chat-container">
+        <img src="{{ url_for('static', filename='nzm.jpg') }}" alt="Character Image">
+        <div class="speech-bubble" id="message-container"></div>
+    </div>
+</body>
+</html>
